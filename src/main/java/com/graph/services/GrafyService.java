@@ -16,6 +16,7 @@ import org.jgrapht.graph.*;
 import org.jgrapht.io.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -35,6 +36,9 @@ public class GrafyService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final String UPLOADED_FOLDER = "src/main/resources/";
+
+    @Autowired
+    DownloandService downloandService;
 
     public String lista1Zadanie1(String filePath){
         CSVExporter<String,DefaultEdge> matrixExporter = new CSVExporter<>(CSVFormat.MATRIX);
@@ -131,9 +135,11 @@ public class GrafyService {
             lista2Zadanie2.setCycle(true);
             lista2Zadanie2.setEges(wheelGraph.edgeSet().toString());
             DOTExporter dotExporter = new DOTExporter();
-            File file = new File(UPLOADED_FOLDER+new Date().getTime());
+            Long fileName = new Date().getTime();
+            File file = new File(UPLOADED_FOLDER+fileName+".txt");
             try {
                 dotExporter.exportGraph(wheelGraph,file);
+                lista2Zadanie2.setLink(downloandService.generateFileLink(fileName+".txt"));
             } catch (ExportException e) {
                 e.printStackTrace();
             }
@@ -163,11 +169,12 @@ public class GrafyService {
         GreedyColoring greedyColoring = new GreedyColoring(graph);
         VertexColoringAlgorithm.Coloring coloring = greedyColoring.getColoring();
         DOTExporter dotExporter = new DOTExporter();
-        File file = new File(UPLOADED_FOLDER+new Date().getTime());
+        Long fileName = new Date().getTime();
+        File file = new File(UPLOADED_FOLDER+fileName+".txt");
         try {
             dotExporter.putGraphAttribute("colors", coloring.getColorClasses().toString());
             dotExporter.exportGraph(graph,file);
-            return file.getAbsolutePath();
+            return downloandService.generateFileLink(fileName+".txt");
         } catch (ExportException e) {
             e.printStackTrace();
             return "ERROR";
