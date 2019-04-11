@@ -4,6 +4,7 @@ public class Lista2Zadanie2Response {
 
     private Boolean isCycle;
     private String eges;
+    private String link;
 
     public Boolean getCycle() {
         return isCycle;
@@ -21,12 +22,21 @@ public class Lista2Zadanie2Response {
         this.eges = eges;
     }
 
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
     @Override
     public String toString() {
         if(isCycle){
             return "Lista2Zadanie2Response{ \n" +
                     "Graf jest grafem cyklicznym"+
-                    "Lista krawedzi='" + eges + '\'' +
+                    "Lista krawedzi='" + eges + "\n" +
+                    "Link: "+link+"\n"+
                     '}';
         }else{
             return "Lista2Zadanie2Response{" +

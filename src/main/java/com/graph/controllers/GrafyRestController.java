@@ -137,7 +137,7 @@ public class GrafyRestController {
                 continue;
             }
             byte[] bytes = file.getBytes();
-            path = Paths.get(UPLOADED_FOLDER + new Date().getTime());
+            path = Paths.get(UPLOADED_FOLDER + new Date().getTime()+".txt");
             Files.write(path, bytes);
         }
         return path;
