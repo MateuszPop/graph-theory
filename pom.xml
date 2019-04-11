@@ -85,7 +85,7 @@
         <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
-            <version>2.0.8.RELEASE</version>
+            <version>2.0.17.RELEASE</version>
         </dependency>
 
         <dependency>
@@ -126,111 +126,6 @@
             </snapshots>
         </repository>
     </repositories>
-    <build>
-        <!-- do not include application-test.properties in jar -->
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>*.properties</exclude>
-                </excludes>
-                <filtering>false</filtering>
-            </resource>
-        </resources>
-
-        <plugins>
-            <!-- checkstyle analysis plugin -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.17</version>
-            </plugin>
-            <!-- code test coverage analysis plugin -->
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.2</version>
-                <configuration>
-                    <append>true</append>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>default-prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>default-report</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- copy application-test.properties to target/conf -->
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.2</version>
-                <executions>
-                    <execution>
-                        <id>copy-resources</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${basedir}/target/conf</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>src/main/resources</directory>
-                                    <filtering>true</filtering>
-                                    <includes>      <!--Only those files will be included-->
-                                        <include>*.properties</include>
-                                    </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <includeSystemScope>true</includeSystemScope>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.8</version>
-                <executions>
-                    <execution>
-                        <id>copy</id>
-                        <phase>package</phase>
-                        <configuration>
-                            <target>
-                                <echo>ANT TASK - copying files for local distro....</echo>
-                                <copy file="${basedir}/target/${project.artifactId}-${project.version}.jar" tofile="${basedir}/distribution/local/${project.artifactId}.jar" />
-                                <copy file="${basedir}/target/${project.artifactId}-${project.version}.jar" tofile="${basedir}/distribution/local/${project.artifactId}-${project.version}.jar" />
-
-                                <echo>ANT TASK - copying files for dev distro....</echo>
-                                <copy file="${basedir}/target/${project.artifactId}-${project.version}.jar" tofile="${basedir}/distribution/dev/${project.artifactId}.jar" />
-                                <copy file="${basedir}/target/${project.artifactId}-${project.version}.jar" tofile="${basedir}/distribution/dev/${project.artifactId}-${project.version}.jar" />
-                                <copy file="${basedir}/src/main/resources/application-dev.properties" tofile="${basedir}/distribution/dev/application-dev.properties" />
-                                <copy file="${basedir}/src/main/resources/logback-spring-dev.xml" tofile="${basedir}/distribution/dev/logback-spring-dev.xml" />
-                                <copy file="${basedir}/src/main/resources/run-dev.sh" tofile="${basedir}/distribution/dev/run-dev.sh" />
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 
     <profiles>
         <profile>
