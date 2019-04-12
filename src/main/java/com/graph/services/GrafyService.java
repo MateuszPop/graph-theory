@@ -1,14 +1,15 @@
 package com.graph.services;
 
 import com.graph.response.*;
+import com.graph.utils.TwoApproxMetricTSPCustom;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphMetrics;
-import org.jgrapht.GraphPath;
 import org.jgrapht.GraphTests;
 import org.jgrapht.alg.color.GreedyColoring;
-import org.jgrapht.alg.cycle.HierholzerEulerianCycle;
-import org.jgrapht.alg.interfaces.EulerianCycleAlgorithm;
+import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
 import org.jgrapht.alg.interfaces.VertexColoringAlgorithm;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
+import org.jgrapht.alg.tour.TwoApproxMetricTSP;
 import org.jgrapht.generate.ComplementGraphGenerator;
 import org.jgrapht.generate.GraphGenerator;
 import org.jgrapht.generate.WheelGraphGenerator;
@@ -204,14 +205,86 @@ public class GrafyService {
 
     }
 
+    public String lista3Zadanie1(String filePath) throws ExportException {
+        Graph graph = loadGraphWithFile(filePath);
+        Long fileName = new Date().getTime();
+        File file = new File(UPLOADED_FOLDER+fileName+".txt");
+        DOTExporter <Object,DefaultWeightedEdge>  dotExporter = new DOTExporter<>(new ComponentNameProvider<Object>() {
+            @Override
+            public String getName(Object s) {
+                return (String) s;
+            }
+        }, null, new ComponentNameProvider<DefaultWeightedEdge>() {
+            @Override
+            public String getName(DefaultWeightedEdge defaultWeightedEdge) {
+                return String.valueOf(graph.getEdgeWeight(defaultWeightedEdge));
+            }
+        });
+            dotExporter.exportGraph(graph,file);
+            return downloandService.generateFileLink(fileName+".txt");
+    }
+
+
+
+    public String lista3Zadanie2(String filePath)  {
+        Graph graph = loadGraphWithFile(filePath);
+        DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath(graph);
+        Set<Object> vertes = graph.vertexSet();
+        Object []vertes1 = vertes.toArray();
+        return String.valueOf(dijkstraShortestPath.getPathWeight(vertes1[0],vertes1[2]));
+
+    }
+
+    public String lista3Zadanie3(String filePath)  {
+        Graph graph = loadGraphWithFile(filePath);
+        String test="";
+        DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath(graph);
+        Object [] vertes = graph.vertexSet().toArray();
+        Map<String, ShortestPathAlgorithm.SingleSourcePaths> paths = new HashMap<>();
+        for( Object verte:vertes){
+            paths.put((String)verte,dijkstraShortestPath.getPaths(verte));
+        }
+        for (Map.Entry<String, ShortestPathAlgorithm.SingleSourcePaths> entry : paths.entrySet()) {
+           for(int i = Integer.valueOf(entry.getKey());i<vertes.length;i++){
+                test= entry.getValue().getWeight(vertes[i])+" "+test;
+           }
+        }
+        return test;
+    }
+
+    public String lista3Zadanie4(String filePath)  {
+        Graph graph = loadGraphWithFile(filePath);
+        String test="";
+        DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath(graph);
+        Object [] vertes = graph.vertexSet().toArray();
+        Map<String, ShortestPathAlgorithm.SingleSourcePaths> paths = new HashMap<>();
+        for( Object verte:vertes){
+            paths.put((String)verte,dijkstraShortestPath.getPaths(verte));
+        }
+        for (Map.Entry<String, ShortestPathAlgorithm.SingleSourcePaths> entry : paths.entrySet()) {
+            for(int i = Integer.valueOf(entry.getKey());i<vertes.length;i++){
+                test= entry.getValue().getWeight(vertes[i])+" "+test;
+            }
+        }
+        return test;
+    }
+
+    public String lista3Zadanie5(String filePath, int numberVertex)  {
+         TwoApproxMetricTSPCustom<Object,DefaultWeightedEdge> twoApproxMetricTSP = new TwoApproxMetricTSPCustom();
+        Graph graph = loadGraphWithFile(filePath);
+        Object [] vertes = graph.vertexSet().toArray();
+        return twoApproxMetricTSP.getTour(graph,vertes[numberVertex-1]).getVertexList().toString();
+    }
+
 
 
     private Graph loadGraphWithFile(String filePath){
         VertexProvider<Object> vertexProvider = (label, attributes) -> label;
-        EdgeProvider<Object, DefaultEdge> edgeProvider = (from, to, label, attributes) -> new DefaultEdge();
-        CSVImporter<Object,DefaultEdge> csvImporter = new CSVImporter<>(vertexProvider,edgeProvider);
+        EdgeProvider<Object, DefaultWeightedEdge> edgeProvider = (from, to, label, attributes) -> new DefaultWeightedEdge();
+        CSVImporter<Object,DefaultWeightedEdge> csvImporter = new CSVImporter<>(vertexProvider,edgeProvider);
         csvImporter.setFormat(CSVFormat.EDGE_LIST);
-        Graph<Object, DefaultEdge> network = new Pseudograph<>(DefaultEdge.class);
+        csvImporter.setParameter(CSVFormat.Parameter.EDGE_WEIGHTS,true);
+        Graph<Object, DefaultWeightedEdge> network = new WeightedPseudograph<>(DefaultWeightedEdge.class);
         try {
             try (Stream<String> lines = Files.lines(Paths.get(filePath))) {
                 List<String> replaced = lines

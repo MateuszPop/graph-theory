@@ -1,6 +1,7 @@
 package com.graph.controllers;
 
 import com.graph.services.GrafyService;
+import org.jgrapht.io.ExportException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,6 +129,58 @@ public class GrafyRestController {
             return "ERROR";
         }
     }
+
+    @PostMapping(value = "/graph/lista3/zadanie1")
+    public String lista3Zadanie1(@RequestParam("file") MultipartFile uploadfile) {
+        try {
+            return grafyService.lista3Zadanie1(saveUploadedFiles(Arrays.asList(uploadfile)).toString());
+        } catch (IOException | ExportException e) {
+            e.printStackTrace();
+            return "ERROR";
+        }
+    }
+
+    @PostMapping(value = "/graph/lista3/zadanie2")
+    public String lista3Zadanie2(@RequestParam("file") MultipartFile uploadfile) {
+        try {
+            return grafyService.lista3Zadanie2(saveUploadedFiles(Arrays.asList(uploadfile)).toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "ERROR";
+        }
+    }
+
+    @PostMapping(value = "/graph/lista3/zadanie3")
+    public String lista3Zadanie3(@RequestParam("file") MultipartFile uploadfile) {
+        try {
+            return grafyService.lista3Zadanie3(saveUploadedFiles(Arrays.asList(uploadfile)).toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "ERROR";
+        }
+    }
+
+    @PostMapping(value = "/graph/lista3/zadanie4")
+    public String lista3Zadanie4(@RequestParam("file") MultipartFile uploadfile) {
+        try {
+            return grafyService.lista3Zadanie3(saveUploadedFiles(Arrays.asList(uploadfile)).toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "ERROR";
+        }
+    }
+
+    @PostMapping(value = "/graph/lista3/zadanie5")
+    public String lista3Zadanie5(@RequestParam("file") MultipartFile uploadfile,@RequestParam("vertexNumber") Integer vertexNumber ) {
+        try {
+            return grafyService.lista3Zadanie5(saveUploadedFiles(Arrays.asList(uploadfile)).toString(),vertexNumber);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "ERROR";
+        }
+    }
+
+
 
 
     private Path saveUploadedFiles(List<MultipartFile> files) throws IOException {
