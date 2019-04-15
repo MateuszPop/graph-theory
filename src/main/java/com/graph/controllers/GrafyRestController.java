@@ -190,7 +190,6 @@ public class GrafyRestController {
         }
     }
 
-
     private Path saveUploadedFiles(List<MultipartFile> files) throws IOException {
         Path path = Paths.get("");
         for (MultipartFile file : files) {
