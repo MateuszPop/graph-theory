@@ -1,11 +1,13 @@
 package com.graph.services;
 
 import com.graph.response.*;
+import com.graph.utils.ChinesePostmanCustom;
 import com.graph.utils.TwoApproxMetricTSPCustom;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphMetrics;
 import org.jgrapht.GraphTests;
 import org.jgrapht.alg.color.GreedyColoring;
+import org.jgrapht.alg.cycle.ChinesePostman;
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
 import org.jgrapht.alg.interfaces.VertexColoringAlgorithm;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
@@ -276,6 +278,12 @@ public class GrafyService {
         return twoApproxMetricTSP.getTour(graph,vertes[numberVertex-1]).getVertexList().toString();
     }
 
+    public String lista4Zadanie1(String filePath, int numberVertex)  {
+        ChinesePostman<Object,DefaultWeightedEdge> chinesePostman = new ChinesePostman();
+        Graph graph = loadGraphWithFile(filePath);
+        Object [] vertes = graph.vertexSet().toArray();
+        return (String) chinesePostman.getCPPSolution(graph).getStartVertex();
+    }
 
 
     private Graph loadGraphWithFile(String filePath){
