@@ -180,7 +180,15 @@ public class GrafyRestController {
         }
     }
 
-
+    @PostMapping(value = "/graph/lista4/zadanie1")
+    public String lista4Zadanie1(@RequestParam("file") MultipartFile uploadfile,@RequestParam("vertexNumber") Integer vertexNumber ) {
+        try {
+            return grafyService.lista4Zadanie1(saveUploadedFiles(Arrays.asList(uploadfile)).toString(),vertexNumber);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "ERROR";
+        }
+    }
 
 
     private Path saveUploadedFiles(List<MultipartFile> files) throws IOException {
