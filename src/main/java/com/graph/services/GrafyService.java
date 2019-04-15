@@ -1,7 +1,6 @@
 package com.graph.services;
 
 import com.graph.response.*;
-import com.graph.utils.ChinesePostmanCustom;
 import com.graph.utils.TwoApproxMetricTSPCustom;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphMetrics;
@@ -11,7 +10,6 @@ import org.jgrapht.alg.cycle.ChinesePostman;
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
 import org.jgrapht.alg.interfaces.VertexColoringAlgorithm;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
-import org.jgrapht.alg.tour.TwoApproxMetricTSP;
 import org.jgrapht.generate.ComplementGraphGenerator;
 import org.jgrapht.generate.GraphGenerator;
 import org.jgrapht.generate.WheelGraphGenerator;
@@ -284,7 +282,6 @@ public class GrafyService {
         Object [] vertes = graph.vertexSet().toArray();
         return (String) chinesePostman.getCPPSolution(graph).getStartVertex();
     }
-
 
     private Graph loadGraphWithFile(String filePath){
         VertexProvider<Object> vertexProvider = (label, attributes) -> label;
