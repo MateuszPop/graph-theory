@@ -24,15 +24,12 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     @Autowired
     private JwtAccessTokenConverter tokenConverter;
 
-    @Autowired
-    private GrafyConfiguration adServerConfiguration;
-
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/graf/**").permitAll();
+                .antMatchers("/graph/**").permitAll();
 
     }
 
