@@ -1,6 +1,6 @@
 package com.graph.response;
 
-public class Lista2Zadanie1Response {
+public class Lista2Zadanie1Response extends Response{
 
     private Boolean isRegular;
     private Integer deg;

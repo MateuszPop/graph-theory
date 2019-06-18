@@ -1,6 +1,6 @@
 package com.graph.response;
 
-public class Lista1Zadanie1Response {
+public class Lista1Zadanie1Response extends Response {
 
     private String verticlesNumber;
     private String verticlesCollection;
@@ -8,6 +8,24 @@ public class Lista1Zadanie1Response {
     private String egesCollection;
     private String adjacencyMatrix;
     private String incidenceMatrix;
+
+    public Lista1Zadanie1Response() {
+        super();
+    }
+
+    public Lista1Zadanie1Response(ResponseStatus status, ResponseCode code) {
+        super(status, code);
+    }
+
+    public Lista1Zadanie1Response(ResponseStatus status, ResponseCode code, String verticlesNumber, String verticlesCollection, String egesNumber, String egesCollection, String adjacencyMatrix, String incidenceMatrix) {
+        super(status, code);
+        this.verticlesNumber = verticlesNumber;
+        this.verticlesCollection = verticlesCollection;
+        this.egesNumber = egesNumber;
+        this.egesCollection = egesCollection;
+        this.adjacencyMatrix = adjacencyMatrix;
+        this.incidenceMatrix = incidenceMatrix;
+    }
 
     public String getVerticlesNumber() {
         return verticlesNumber;

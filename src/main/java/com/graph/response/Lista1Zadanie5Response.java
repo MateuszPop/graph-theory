@@ -1,6 +1,6 @@
 package com.graph.response;
 
-public class Lista1Zadanie5Response {
+public class Lista1Zadanie5Response extends Response{
 
     private String listAdjacency;
 

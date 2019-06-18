@@ -1,6 +1,6 @@
 package com.graph.response;
 
-public class Lista1Zadanie2Response {
+public class Lista1Zadanie2Response extends Response {
 
     private String graphOrder;
     private String graphSize;

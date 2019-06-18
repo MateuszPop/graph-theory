@@ -1,6 +1,6 @@
 package com.graph.response;
 
-public class Lista2Zadanie2Response {
+public class Lista2Zadanie2Response extends Response{
 
     private Boolean isCycle;
     private String eges;

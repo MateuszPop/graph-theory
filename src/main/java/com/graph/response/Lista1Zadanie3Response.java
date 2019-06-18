@@ -1,6 +1,6 @@
 package com.graph.response;
 
-public class Lista1Zadanie3Response {
+public class Lista1Zadanie3Response extends Response {
 
     private String typeGraph;
 

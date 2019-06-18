@@ -24,7 +24,7 @@ import java.io.File;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -32,16 +32,16 @@ import java.util.stream.Stream;
 
 
 @Service
-public class GrafyService {
+public class GraphService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final String UPLOADED_FOLDER = "src/main/resources/";
 
     @Autowired
-    DownloandService downloandService;
+    private DownloadService downloadService;
 
-    public String lista1Zadanie1(String filePath){
+    public Lista1Zadanie1Response lista1Zadanie1(Path filePath){
         CSVExporter<String,DefaultEdge> matrixExporter = new CSVExporter<>(CSVFormat.MATRIX);
         matrixExporter.setParameter(CSVFormat.Parameter.MATRIX_FORMAT_ZERO_WHEN_NO_EDGE,true);
         Graph graph = loadGraphWithFile(filePath);
@@ -58,13 +58,15 @@ public class GrafyService {
             matrixExporter.exportGraph(graph,writerIncidenceMatrix);
             lista1Zadanie1Response.setAdjacencyMatrix(dataAdjacencyMatrix);
             lista1Zadanie1Response.setIncidenceMatrix(getIncidenceMatrix(graph));
+            lista1Zadanie1Response.setCode(ResponseCode.SUCCESS);
+            lista1Zadanie1Response.setStatus(ResponseStatus.SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return lista1Zadanie1Response.toString();
+        return lista1Zadanie1Response;
     }
 
-    public String lista1Zadanie2(String filePath){
+    public String lista1Zadanie2(Path filePath){
         Lista1Zadanie2Response lista1Zadanie2 = new Lista1Zadanie2Response();
         Graph graph = loadGraphWithFile(filePath);
         lista1Zadanie2.setGraphOrder(String.valueOf(graph.vertexSet().size()));
@@ -74,14 +76,14 @@ public class GrafyService {
         return lista1Zadanie2.toString();
     }
 
-    public String lista1Zadanie3(String filePath){
+    public String lista1Zadanie3(Path filePath){
         Lista1Zadanie3Response lista1Zadanie3 = new Lista1Zadanie3Response();
         Graph graph = loadGraphWithFile(filePath);
         lista1Zadanie3.setTypeGraph(testGraphSimple(graph));
         return lista1Zadanie3.toString();
     }
 
-    public String lista1Zadanie4(String filePath){
+    public String lista1Zadanie4(Path filePath){
         Lista1Zadanie4Response lista1Zadanie4 = new Lista1Zadanie4Response();
         Graph graph = loadGraphWithFile(filePath);
         lista1Zadanie4.setCompleteGraph(GraphTests.isComplete(graph));
@@ -92,7 +94,7 @@ public class GrafyService {
         return lista1Zadanie4.toString();
     }
 
-    public String lista1Zadanie5(String filePath){
+    public String lista1Zadanie5(Path filePath){
         Lista1Zadanie5Response lista1Zadanie5 = new Lista1Zadanie5Response();
         Graph graph = loadGraphWithFile(filePath);
         String listVertex = new String();
@@ -105,7 +107,7 @@ public class GrafyService {
         return lista1Zadanie5.toString();
     }
 
-    public String lista2Zadanie1(String filePath){
+    public String lista2Zadanie1(Path filePath){
         Lista2Zadanie1Response lista2Zadanie1 = new Lista2Zadanie1Response();
         Graph graph = loadGraphWithFile(filePath);
         lista2Zadanie1.setRegular(regularGraph(graph));
@@ -115,7 +117,7 @@ public class GrafyService {
         return lista2Zadanie1.toString();
     }
 
-    public String lista2Zadanie2(String filePath){
+    public String lista2Zadanie2(Path filePath){
         Lista2Zadanie2Response lista2Zadanie2 = new Lista2Zadanie2Response();
         Graph graph = loadGraphWithFile(filePath);
         if(regularGraph(graph)&& GraphTests.isConnected(graph) && Integer.valueOf(regularGraphDeg(graph)).equals(new Integer(2))){
@@ -140,7 +142,7 @@ public class GrafyService {
             File file = new File(UPLOADED_FOLDER+fileName+".txt");
             try {
                 dotExporter.exportGraph(wheelGraph,file);
-                lista2Zadanie2.setLink(downloandService.generateFileLink(fileName+".txt"));
+                lista2Zadanie2.setLink(downloadService.generateFileLink(fileName+".txt"));
             } catch (ExportException e) {
                 e.printStackTrace();
             }
@@ -153,7 +155,7 @@ public class GrafyService {
         }
 
     }
-    public String lista2Zadanie3(String filePath) {
+    public String lista2Zadanie3(Path filePath) {
         Lista2Zadanie2Response lista2Zadanie2 = new Lista2Zadanie2Response();
         Graph graph = loadGraphWithFile(filePath);
         long tirangles = GraphMetrics.getNumberOfTriangles(graph);
@@ -164,7 +166,7 @@ public class GrafyService {
         }
     }
 
-    public String lista2Zadanie4(String filePath) {
+    public String lista2Zadanie4(Path filePath) {
         Lista2Zadanie2Response lista2Zadanie2 = new Lista2Zadanie2Response();
         Graph graph = loadGraphWithFile(filePath);
         GreedyColoring greedyColoring = new GreedyColoring(graph);
@@ -175,14 +177,14 @@ public class GrafyService {
         try {
             dotExporter.putGraphAttribute("colors", coloring.getColorClasses().toString());
             dotExporter.exportGraph(graph,file);
-            return downloandService.generateFileLink(fileName+".txt");
+            return downloadService.generateFileLink(fileName+".txt");
         } catch (ExportException e) {
             e.printStackTrace();
             return "ERROR";
         }
     }
 
-    public String lista2Zadanie5(String filePath) {
+    public String lista2Zadanie5(Path filePath) {
         int number =0;
         Graph graph = loadGraphWithFile(filePath);
 
@@ -205,7 +207,7 @@ public class GrafyService {
 
     }
 
-    public String lista3Zadanie1(String filePath) throws ExportException {
+    public String lista3Zadanie1(Path filePath) throws ExportException {
         Graph graph = loadGraphWithFile(filePath);
         Long fileName = new Date().getTime();
         File file = new File(UPLOADED_FOLDER+fileName+".txt");
@@ -221,12 +223,12 @@ public class GrafyService {
             }
         });
             dotExporter.exportGraph(graph,file);
-            return downloandService.generateFileLink(fileName+".txt");
+            return downloadService.generateFileLink(fileName+".txt");
     }
 
 
 
-    public String lista3Zadanie2(String filePath)  {
+    public String lista3Zadanie2(Path filePath)  {
         Graph graph = loadGraphWithFile(filePath);
         DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath(graph);
         Set<Object> vertes = graph.vertexSet();
@@ -235,7 +237,7 @@ public class GrafyService {
 
     }
 
-    public String lista3Zadanie3(String filePath)  {
+    public String lista3Zadanie3(Path filePath)  {
         Graph graph = loadGraphWithFile(filePath);
         String test="";
         DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath(graph);
@@ -252,7 +254,7 @@ public class GrafyService {
         return test;
     }
 
-    public String lista3Zadanie4(String filePath)  {
+    public String lista3Zadanie4(Path filePath)  {
         Graph graph = loadGraphWithFile(filePath);
         String test="";
         DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath(graph);
@@ -269,21 +271,24 @@ public class GrafyService {
         return test;
     }
 
-    public String lista3Zadanie5(String filePath, int numberVertex)  {
+    public String lista3Zadanie5(Path filePath, int numberVertex)  {
          TwoApproxMetricTSPCustom<Object,DefaultWeightedEdge> twoApproxMetricTSP = new TwoApproxMetricTSPCustom();
         Graph graph = loadGraphWithFile(filePath);
         Object [] vertes = graph.vertexSet().toArray();
         return twoApproxMetricTSP.getTour(graph,vertes[numberVertex-1]).getVertexList().toString();
     }
 
-    public String lista4Zadanie1(String filePath, int numberVertex)  {
-        ChinesePostman<Object,DefaultWeightedEdge> chinesePostman = new ChinesePostman();
+    public String lista4Zadanie1(Path filePath, String numberVertex)  {
+        ChinesePostman chinesePostman = new ChinesePostman();
         Graph graph = loadGraphWithFile(filePath);
-        Object [] vertes = graph.vertexSet().toArray();
-        return (String) chinesePostman.getCPPSolution(graph).getStartVertex();
+        List graphVertices = chinesePostman.getCPPSolution(graph).getVertexList();
+        graphVertices.remove(0);
+        Collections.rotate(graphVertices,-graphVertices.indexOf(numberVertex));
+        graphVertices.add(numberVertex);
+        return String.valueOf(graphVertices);
     }
 
-    private Graph loadGraphWithFile(String filePath){
+    private Graph loadGraphWithFile(Path filePath){
         VertexProvider<Object> vertexProvider = (label, attributes) -> label;
         EdgeProvider<Object, DefaultWeightedEdge> edgeProvider = (from, to, label, attributes) -> new DefaultWeightedEdge();
         CSVImporter<Object,DefaultWeightedEdge> csvImporter = new CSVImporter<>(vertexProvider,edgeProvider);
@@ -291,14 +296,14 @@ public class GrafyService {
         csvImporter.setParameter(CSVFormat.Parameter.EDGE_WEIGHTS,true);
         Graph<Object, DefaultWeightedEdge> network = new WeightedPseudograph<>(DefaultWeightedEdge.class);
         try {
-            try (Stream<String> lines = Files.lines(Paths.get(filePath))) {
+            try (Stream<String> lines = Files.lines(filePath)) {
                 List<String> replaced = lines
                         .map(line-> line.replaceAll(" ", ","))
                         .collect(Collectors.toList());
                 replaced.remove(0);
-                Files.write(Paths.get(filePath), replaced);
+                Files.write(filePath, replaced);
             }
-            csvImporter.importGraph(network,new File(filePath));
+            csvImporter.importGraph(network,new File(filePath.toString()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -307,9 +312,9 @@ public class GrafyService {
 
     private String getIncidenceMatrix(Graph graph){
         int[][] arr = new int[graph.vertexSet().size()][graph.edgeSet().size()];
-        Set<DefaultEdge> edges = graph.edgeSet();
+        Set edges = graph.edgeSet();
         int c=0;
-        for ( DefaultEdge edge : edges) {
+        for ( Object edge : edges) {
             arr[Integer.valueOf((String)graph.getEdgeSource(edge))-1][c] = 1;
             arr[Integer.valueOf((String)graph.getEdgeTarget(edge))-1][c] = 1;
             c++;
@@ -337,8 +342,8 @@ public class GrafyService {
 
     private String seriesDegGraph(Graph graph){
         List<Integer> series = new ArrayList<>();
-        Set<String> vertes = graph.vertexSet();
-        for ( String vertex : vertes) {
+        Set vertes = graph.vertexSet();
+        for ( Object vertex : vertes) {
             series.add(graph.degreeOf(vertex));
         }
         Collections.sort(series);
@@ -356,18 +361,19 @@ public class GrafyService {
     }
 
     private String regularGraphDeg(Graph graph){
-        Set<String> vertes = graph.vertexSet();
-        for ( String vertex : vertes) {
+        Set vertes = graph.vertexSet();
+        for ( Object vertex : vertes) {
             return String.valueOf(graph.degreeOf(vertex));
         }
         return "";
     }
 
     private String testGraphSimple(Graph graph){
-        if(GraphTests.isSimple(graph)){
+        if (!GraphTests.isSimple(graph)) {
+            return "ogólny";
+        } else {
             return "prostym";
         }
-        else return "ogólny";
     }
 
 }

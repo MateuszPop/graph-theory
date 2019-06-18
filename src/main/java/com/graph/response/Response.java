@@ -5,6 +5,9 @@ public class Response {
     private ResponseStatus status;
     private ResponseCode code;
 
+    public Response() {
+    }
+
     public Response(ResponseStatus status, ResponseCode code) {
         this.status = status;
         this.code = code;

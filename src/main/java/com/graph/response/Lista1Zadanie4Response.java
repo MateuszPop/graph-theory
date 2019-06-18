@@ -1,6 +1,6 @@
 package com.graph.response;
 
-public class Lista1Zadanie4Response {
+public class Lista1Zadanie4Response extends Response{
 
     private Boolean isCompleteGraph;
     private String complementGraph;
