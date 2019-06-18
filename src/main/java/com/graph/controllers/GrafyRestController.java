@@ -139,9 +139,9 @@ public class GrafyRestController {
     }
 
     @PostMapping(value = "/graph/lista3/zadanie2")
-    public String lista3Zadanie2(@RequestParam("file") MultipartFile uploadFile) {
+    public String lista3Zadanie2(@RequestParam("file") MultipartFile uploadFile,@RequestParam("vertexIndex1") Integer vertexIndex1,@RequestParam("vertexIndex2") Integer vertexIndex2) {
         try {
-            return graphService.lista3Zadanie2(uploadService.saveUploadedFile(uploadFile));
+            return graphService.lista3Zadanie2(uploadService.saveUploadedFile(uploadFile),vertexIndex1,vertexIndex2);
         } catch (IOException e) {
             e.printStackTrace();
             return "ERROR";

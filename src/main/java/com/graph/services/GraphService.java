@@ -227,13 +227,12 @@ public class GraphService {
     }
 
 
-
-    public String lista3Zadanie2(Path filePath)  {
+    public String lista3Zadanie2(Path filePath,int vertexIndex1, int vertexIndex2)  {
         Graph graph = loadGraphWithFile(filePath);
         DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath(graph);
         Set<Object> vertes = graph.vertexSet();
         Object []vertes1 = vertes.toArray();
-        return String.valueOf(dijkstraShortestPath.getPathWeight(vertes1[0],vertes1[2]));
+        return String.valueOf(dijkstraShortestPath.getPathWeight(vertes1[vertexIndex1],vertes1[vertexIndex2]));
 
     }
 
