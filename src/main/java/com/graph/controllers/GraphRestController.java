@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-public class GrafyRestController {
+public class GraphRestController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
