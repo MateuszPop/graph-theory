@@ -226,13 +226,11 @@ public class GraphService {
             return downloadService.generateFileLink(fileName+".txt");
     }
 
-
     public String lista3Zadanie2(Path filePath,String vertexIndex1, String vertexIndex2)  {
         Graph graph = loadGraphWithFile(filePath);
         DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath(graph);
         Object [] vertices = graph.vertexSet().toArray();
         return String.valueOf(dijkstraShortestPath.getPathWeight(vertices[Arrays.asList(vertices).indexOf(vertexIndex1)],vertices[Arrays.asList(vertices).indexOf(vertexIndex2)]));
-
     }
 
     public String lista3Zadanie3(Path filePath)  {
