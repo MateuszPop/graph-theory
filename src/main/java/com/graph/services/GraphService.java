@@ -227,12 +227,11 @@ public class GraphService {
     }
 
 
-    public String lista3Zadanie2(Path filePath,int vertexIndex1, int vertexIndex2)  {
+    public String lista3Zadanie2(Path filePath,String vertexIndex1, String vertexIndex2)  {
         Graph graph = loadGraphWithFile(filePath);
         DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath(graph);
-        Set<Object> vertes = graph.vertexSet();
-        Object []vertes1 = vertes.toArray();
-        return String.valueOf(dijkstraShortestPath.getPathWeight(vertes1[vertexIndex1],vertes1[vertexIndex2]));
+        Object [] vertices = graph.vertexSet().toArray();
+        return String.valueOf(dijkstraShortestPath.getPathWeight(vertices[Arrays.asList(vertices).indexOf(vertexIndex1)],vertices[Arrays.asList(vertices).indexOf(vertexIndex2)]));
 
     }
 
