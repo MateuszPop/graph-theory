@@ -1,8 +1,6 @@
 package com.graph.controllers;
 
-import com.graph.response.Lista1Zadanie1Response;
-import com.graph.response.ResponseCode;
-import com.graph.response.ResponseStatus;
+import com.graph.response.*;
 import com.graph.services.GraphService;
 import com.graph.services.UploadService;
 import org.jgrapht.io.ExportException;
@@ -39,62 +37,62 @@ public class GraphRestController {
     }
 
     @PostMapping(value = "/graph/lista1/zadanie2")
-    public String lista1Zadanie2(@RequestParam("file") MultipartFile uploadFile) {
+    public Lista1Zadanie2Response lista1Zadanie2(@RequestParam("file") MultipartFile uploadFile) {
         try {
             return graphService.lista1Zadanie2(uploadService.saveUploadedFile(uploadFile));
         } catch (IOException e) {
             e.printStackTrace();
-            return "ERROR";
+            return new Lista1Zadanie2Response(ResponseStatus.FAILED, ResponseCode.FAILED);
         }
     }
 
     @PostMapping(value = "/graph/lista1/zadanie3")
-    public String lista1Zadanie3(@RequestParam("file") MultipartFile uploadFile) {
+    public Lista1Zadanie3Response lista1Zadanie3(@RequestParam("file") MultipartFile uploadFile) {
         try {
             return graphService.lista1Zadanie3(uploadService.saveUploadedFile(uploadFile));
         } catch (IOException e) {
             e.printStackTrace();
-            return "ERROR";
+            return new Lista1Zadanie3Response(ResponseStatus.FAILED, ResponseCode.FAILED);
         }
     }
 
     @PostMapping(value = "/graph/lista1/zadanie4")
-    public String lista1Zadanie4(@RequestParam("file") MultipartFile uploadFile) {
+    public Lista1Zadanie4Response lista1Zadanie4(@RequestParam("file") MultipartFile uploadFile) {
         try {
             return graphService.lista1Zadanie4(uploadService.saveUploadedFile(uploadFile));
         } catch (IOException e) {
             e.printStackTrace();
-            return "ERROR";
+            return new Lista1Zadanie4Response(ResponseStatus.FAILED, ResponseCode.FAILED);
         }
     }
 
     @PostMapping(value = "/graph/lista1/zadanie5")
-    public String lista1Zadanie5(@RequestParam("file") MultipartFile uploadFile) {
+    public Lista1Zadanie5Response lista1Zadanie5(@RequestParam("file") MultipartFile uploadFile) {
         try {
             return graphService.lista1Zadanie5(uploadService.saveUploadedFile(uploadFile));
         } catch (IOException e) {
             e.printStackTrace();
-            return "ERROR";
+            return new Lista1Zadanie5Response(ResponseStatus.FAILED, ResponseCode.FAILED);
         }
     }
 
     @PostMapping(value = "/graph/lista2/zadanie1")
-    public String lista2Zadanie1(@RequestParam("file") MultipartFile uploadFile) {
+    public Lista2Zadanie1Response lista2Zadanie1(@RequestParam("file") MultipartFile uploadFile) {
         try {
             return graphService.lista2Zadanie1(uploadService.saveUploadedFile(uploadFile));
         } catch (IOException e) {
             e.printStackTrace();
-            return "ERROR";
+            return new Lista2Zadanie1Response(ResponseStatus.FAILED, ResponseCode.FAILED);
         }
     }
 
     @PostMapping(value = "/graph/lista2/zadanie2")
-    public String lista2Zadanie2(@RequestParam("file") MultipartFile uploadFile) {
+    public Lista2Zadanie2Response lista2Zadanie2(@RequestParam("file") MultipartFile uploadFile) {
         try {
             return graphService.lista2Zadanie2(uploadService.saveUploadedFile(uploadFile));
         } catch (IOException e) {
             e.printStackTrace();
-            return "ERROR";
+            return new Lista2Zadanie2Response(ResponseStatus.FAILED, ResponseCode.FAILED);
         }
     }
 

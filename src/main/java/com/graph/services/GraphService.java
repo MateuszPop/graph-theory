@@ -66,24 +66,28 @@ public class GraphService {
         return lista1Zadanie1Response;
     }
 
-    public String lista1Zadanie2(Path filePath){
+    public Lista1Zadanie2Response lista1Zadanie2(Path filePath){
         Lista1Zadanie2Response lista1Zadanie2 = new Lista1Zadanie2Response();
         Graph graph = loadGraphWithFile(filePath);
         lista1Zadanie2.setGraphOrder(String.valueOf(graph.vertexSet().size()));
         lista1Zadanie2.setGraphSize(String.valueOf(graph.edgeSet().size()));
         lista1Zadanie2.setGraphVertexDeg(degreesOfVertices(graph));
         lista1Zadanie2.setSeriesDegGraph(seriesDegGraph(graph));
-        return lista1Zadanie2.toString();
+        lista1Zadanie2.setCode(ResponseCode.SUCCESS);
+        lista1Zadanie2.setStatus(ResponseStatus.SUCCESS);
+        return lista1Zadanie2;
     }
 
-    public String lista1Zadanie3(Path filePath){
+    public Lista1Zadanie3Response lista1Zadanie3(Path filePath){
         Lista1Zadanie3Response lista1Zadanie3 = new Lista1Zadanie3Response();
         Graph graph = loadGraphWithFile(filePath);
         lista1Zadanie3.setTypeGraph(testGraphSimple(graph));
-        return lista1Zadanie3.toString();
+        lista1Zadanie3.setCode(ResponseCode.SUCCESS);
+        lista1Zadanie3.setStatus(ResponseStatus.SUCCESS);
+        return lista1Zadanie3;
     }
 
-    public String lista1Zadanie4(Path filePath){
+    public Lista1Zadanie4Response lista1Zadanie4(Path filePath){
         Lista1Zadanie4Response lista1Zadanie4 = new Lista1Zadanie4Response();
         Graph graph = loadGraphWithFile(filePath);
         lista1Zadanie4.setCompleteGraph(GraphTests.isComplete(graph));
@@ -91,10 +95,12 @@ public class GraphService {
         Graph<Object, DefaultEdge> complementGraph = new Pseudograph<>(DefaultEdge.class);
         complementGraphGenerator.generateGraph(complementGraph);
         lista1Zadanie4.setComplementGraph(complementGraph.edgeSet().toString());
-        return lista1Zadanie4.toString();
+        lista1Zadanie4.setCode(ResponseCode.SUCCESS);
+        lista1Zadanie4.setStatus(ResponseStatus.SUCCESS);
+        return lista1Zadanie4;
     }
 
-    public String lista1Zadanie5(Path filePath){
+    public Lista1Zadanie5Response lista1Zadanie5(Path filePath){
         Lista1Zadanie5Response lista1Zadanie5 = new Lista1Zadanie5Response();
         Graph graph = loadGraphWithFile(filePath);
         String listVertex = new String();
@@ -104,20 +110,24 @@ public class GraphService {
             listVertex+=vertex+" -> "+eges.toString().replaceAll(vertex," ").replaceAll("\\p{Punct}","").replaceAll(" +", " ")+"\n";
         }
         lista1Zadanie5.setListAdjacency(listVertex);
-        return lista1Zadanie5.toString();
+        lista1Zadanie5.setCode(ResponseCode.SUCCESS);
+        lista1Zadanie5.setStatus(ResponseStatus.SUCCESS);
+        return lista1Zadanie5;
     }
 
-    public String lista2Zadanie1(Path filePath){
+    public Lista2Zadanie1Response lista2Zadanie1(Path filePath){
         Lista2Zadanie1Response lista2Zadanie1 = new Lista2Zadanie1Response();
         Graph graph = loadGraphWithFile(filePath);
         lista2Zadanie1.setRegular(regularGraph(graph));
        if(regularGraph(graph)){
            lista2Zadanie1.setDeg(Integer.valueOf(regularGraphDeg(graph)));
        }
-        return lista2Zadanie1.toString();
+        lista2Zadanie1.setCode(ResponseCode.SUCCESS);
+        lista2Zadanie1.setStatus(ResponseStatus.SUCCESS);
+        return lista2Zadanie1;
     }
 
-    public String lista2Zadanie2(Path filePath){
+    public Lista2Zadanie2Response lista2Zadanie2(Path filePath){
         Lista2Zadanie2Response lista2Zadanie2 = new Lista2Zadanie2Response();
         Graph graph = loadGraphWithFile(filePath);
         if(regularGraph(graph)&& GraphTests.isConnected(graph) && Integer.valueOf(regularGraphDeg(graph)).equals(new Integer(2))){
@@ -146,17 +156,20 @@ public class GraphService {
             } catch (ExportException e) {
                 e.printStackTrace();
             }
-            return lista2Zadanie2.toString();
+            lista2Zadanie2.setCode(ResponseCode.SUCCESS);
+            lista2Zadanie2.setStatus(ResponseStatus.SUCCESS);
+            return lista2Zadanie2;
            }
            else
         {
             lista2Zadanie2.setCycle(false);
-            return lista2Zadanie2.toString();
+            lista2Zadanie2.setCode(ResponseCode.SUCCESS);
+            lista2Zadanie2.setStatus(ResponseStatus.SUCCESS);
+            return lista2Zadanie2;
         }
 
     }
     public String lista2Zadanie3(Path filePath) {
-        Lista2Zadanie2Response lista2Zadanie2 = new Lista2Zadanie2Response();
         Graph graph = loadGraphWithFile(filePath);
         long tirangles = GraphMetrics.getNumberOfTriangles(graph);
         if (tirangles == graph.vertexSet().size() - 1) {
@@ -167,7 +180,6 @@ public class GraphService {
     }
 
     public String lista2Zadanie4(Path filePath) {
-        Lista2Zadanie2Response lista2Zadanie2 = new Lista2Zadanie2Response();
         Graph graph = loadGraphWithFile(filePath);
         GreedyColoring greedyColoring = new GreedyColoring(graph);
         VertexColoringAlgorithm.Coloring coloring = greedyColoring.getColoring();

@@ -5,6 +5,20 @@ public class Lista2Zadanie1Response extends Response{
     private Boolean isRegular;
     private Integer deg;
 
+    public Lista2Zadanie1Response() {
+        super();
+    }
+
+    public Lista2Zadanie1Response(ResponseStatus status, ResponseCode code) {
+        super(status, code);
+    }
+
+    public Lista2Zadanie1Response(ResponseStatus status, ResponseCode code, Boolean isRegular, Integer deg) {
+        super(status, code);
+        this.isRegular = isRegular;
+        this.deg = deg;
+    }
+
     public Boolean getRegular() {
         return isRegular;
     }

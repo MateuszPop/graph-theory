@@ -6,6 +6,21 @@ public class Lista3Zadanie2Response extends Response{
     private String eges;
     private String link;
 
+    public Lista3Zadanie2Response() {
+        super();
+    }
+
+    public Lista3Zadanie2Response(ResponseStatus status, ResponseCode code) {
+        super(status, code);
+    }
+
+    public Lista3Zadanie2Response(ResponseStatus status, ResponseCode code, Boolean isCycle, String eges, String link) {
+        super(status, code);
+        this.isCycle = isCycle;
+        this.eges = eges;
+        this.link = link;
+    }
+
     public Boolean getCycle() {
         return isCycle;
     }

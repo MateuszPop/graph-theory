@@ -4,6 +4,19 @@ public class Lista1Zadanie3Response extends Response {
 
     private String typeGraph;
 
+    public Lista1Zadanie3Response() {
+        super();
+    }
+
+    public Lista1Zadanie3Response(ResponseStatus status, ResponseCode code) {
+        super(status, code);
+    }
+
+    public Lista1Zadanie3Response(ResponseStatus status, ResponseCode code, String typeGraph) {
+        super(status, code);
+        this.typeGraph = typeGraph;
+    }
+
     public String getTypeGraph() {
         return typeGraph;
     }

@@ -5,6 +5,20 @@ public class Lista1Zadanie4Response extends Response{
     private Boolean isCompleteGraph;
     private String complementGraph;
 
+    public Lista1Zadanie4Response() {
+        super();
+    }
+
+    public Lista1Zadanie4Response(ResponseStatus status, ResponseCode code) {
+        super(status, code);
+    }
+
+    public Lista1Zadanie4Response(ResponseStatus status, ResponseCode code, Boolean isCompleteGraph, String complementGraph) {
+        super(status, code);
+        this.isCompleteGraph = isCompleteGraph;
+        this.complementGraph = complementGraph;
+    }
+
     public Boolean getCompleteGraph() {
         return isCompleteGraph;
     }
